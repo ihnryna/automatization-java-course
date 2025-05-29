@@ -68,6 +68,8 @@ public class BookController {
         System.out.println("Genre IDs: " + genreIds);
         System.out.println("Author IDs: " + authorIds);
         System.out.println("Translator IDs: " + translatorIds);
+        System.out.println("q: " + book.getQuantity());
+
         book.setGenres(genres);
         book.setAuthors(authors);
         book.setTranslators(translators);
@@ -133,6 +135,8 @@ public class BookController {
         book.setAuthors(authors);
         book.setTranslators(translators);
         book.setISBN(isbn);
+        System.out.println("q: " + book.getQuantity());
+
 
         bookService.updateBook(book);
         return "redirect:/book";

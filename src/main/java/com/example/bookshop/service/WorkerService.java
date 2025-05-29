@@ -13,7 +13,7 @@ import java.util.Optional;
 public class WorkerService {
     private final WorkerDao workerDao;
 
-    public WorkerService(WorkerDao workerDao){
+    public WorkerService(WorkerDao workerDao) {
         this.workerDao = workerDao;
     }
 
@@ -22,14 +22,17 @@ public class WorkerService {
     }
 
     public void saveWorker(Worker newWorker) {
+        Sha256PasswordEncoder encoder = new Sha256PasswordEncoder();
+        String hashed = encoder.encode(newWorker.getPassword());
+        newWorker.setPassword(hashed);
         workerDao.saveWorker(newWorker);
     }
 
     public void editWorker(Worker newWorker, String oldTabNumber, String newPassword) {
-        if(!Objects.equals(newPassword, "")) {
+        if (!Objects.equals(newPassword, "")) {
             Sha256PasswordEncoder encoder = new Sha256PasswordEncoder();
             String hashed = encoder.encode(newPassword);
-            newWorker.setPassword(hashed); // зберігаємо
+            newWorker.setPassword(hashed);
             workerDao.editWorker(newWorker, oldTabNumber);
             return;
         }
@@ -37,11 +40,11 @@ public class WorkerService {
     }
 
 
-    public boolean existsByTabNumber(String tabNumber){
+    public boolean existsByTabNumber(String tabNumber) {
         return workerDao.existsByTabNumber(tabNumber);
     }
 
-    public Optional<Worker> findByTabEmail(String email){
+    public Optional<Worker> findByTabEmail(String email) {
         return workerDao.findByEmail(email);
     }
 

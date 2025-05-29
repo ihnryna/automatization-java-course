@@ -256,7 +256,7 @@ public class BookDao {
     public void updateBook(Book book) {
         String query = "UPDATE book SET Image = ?, Book_name = ?, Number_of_pages = ?, Type_of_cover = ?, " +
                 "Book_language = ?, Year_of_publication = ?, Weight = ?, Height = ?, Width = ?, Thickness = ?, " +
-                "Book_price = ?, Number_of_instances = ?, Adults_only_status = ? WHERE ISBN = ?";
+                "Book_price = ?, Adults_only_status = ? WHERE ISBN = ?";
 
         try (Connection connection = daoConnection.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -271,9 +271,8 @@ public class BookDao {
             preparedStatement.setFloat(9, book.getWidth());
             preparedStatement.setFloat(10, book.getThickness());
             preparedStatement.setDouble(11, book.getPrice());
-            preparedStatement.setInt(12, book.getQuantity());
-            preparedStatement.setBoolean(13, book.getAdultsOnly() != null ? book.getAdultsOnly() : false);
-            preparedStatement.setString(14, book.getISBN());
+            preparedStatement.setBoolean(12, book.getAdultsOnly() != null ? book.getAdultsOnly() : false);
+            preparedStatement.setString(13, book.getISBN());
 
             preparedStatement.executeUpdate();
 

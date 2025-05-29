@@ -329,4 +329,48 @@ public class ClientCardDao {
         return clientCards;
     }
 
+
+    //Знайти клієнтів, які купили усі книги певного жанру
+    public List<ClientCard> findClientsThanBoughtAllBooksOfGenre(Long genreID) {
+        List<ClientCard> clientCards = new ArrayList<>();
+        String query = """
+                SELECT ID_number, Surname, First_name, Phone_number, Bonus_number
+                FROM client_card
+                WHERE NOT EXISTS (
+                    SELECT *
+                    FROM book
+                    WHERE book.ISBN IN ( SELECT Book_ISBN
+                                        FROM genre_book 
+                                        WHERE Id_genre= ?)
+                               AND NOT EXISTS ( SELECT *
+                                                FROM instance I INNER JOIN receipt R ON I.ID_number_of_check = R.ID_number_of_check
+                                                WHERE R.ID_number_client = client_card.ID_number AND I.ISBN_book=book.ISBN)
+                                               
+                )
+                """;
+        try (Connection conn = daoConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query)){
+
+            ps.setLong(1, genreID);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ClientCard clientCard = new ClientCard(
+                        rs.getString("ID_number"),
+                        rs.getString("Surname"),
+                        rs.getString("First_name"),
+                        rs.getString("Phone_number"),
+                        rs.getInt("Bonus_number")
+                );
+                clientCards.add(clientCard);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot get client cards", e);
+        }
+
+        return clientCards;
+    }
+
 }

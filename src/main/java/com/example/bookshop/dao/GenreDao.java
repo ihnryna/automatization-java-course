@@ -150,4 +150,34 @@ public class GenreDao {
     }
 
 
+    //Порахувати кількість продажів примірників певного жанру
+    public List<Genre> findAllWithSales() {
+        List<Genre> genres = new ArrayList<>();
+        String query = """
+                SELECT G.Id_genre, G.Genre_name, COUNT(*) AS total_sold
+                FROM genre G INNER JOIN genre_book GB ON G.Id_genre = GB.Id_genre
+                    INNER JOIN instance I ON I.ISBN_book = GB.Book_ISBN
+                WHERE I.ID_number_of_check IS NOT NULL 
+                GROUP BY G.Id_genre, G.Genre_name
+                ORDER BY total_sold desc 
+                """;
+
+        try (Connection conn = daoConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(query);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Genre genre = new Genre(
+                        rs.getLong("Id_genre"),
+                        rs.getString("Genre_name"),
+                        rs.getInt("total_sold")
+                );
+                genres.add(genre);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Cannot get genres", e);
+        }
+        return genres;
+    }
 }

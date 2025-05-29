@@ -73,5 +73,9 @@ public class ClientCardService {
         }
     }
 
+    public List<ClientCard> getAllFans(Long genreID) {
+        return clientCardDao.findClientsThanBoughtAllBooksOfGenre(genreID);
+    }
+
 }
 

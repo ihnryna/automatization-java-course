@@ -34,4 +34,9 @@ public class GenreService {
     public Genre getById(Long id) {
         return genreDao.findById(id).orElse(null);
     }
+
+    public List<Genre> getAllGenresWithSales() {
+        return genreDao.findAllWithSales();
+    }
+
 }

@@ -1,9 +1,11 @@
 package com.example.bookshop.controller;
 
 import com.example.bookshop.entity.Book;
+import com.example.bookshop.entity.ClientCard;
 import com.example.bookshop.entity.Genre;
 import com.example.bookshop.entity.Review;
 import com.example.bookshop.service.BookService;
+import com.example.bookshop.service.ClientCardService;
 import com.example.bookshop.service.GenreService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +19,23 @@ public class GenreController {
 
     private final GenreService genreService;
     private final BookService bookService;
+    private final ClientCardService clientCardService;
 
-    public GenreController(GenreService genreService, BookService bookService) {
+
+    public GenreController(GenreService genreService, BookService bookService, ClientCardService clientCardService) {
         this.genreService = genreService;
         this.bookService = bookService;
+        this.clientCardService = clientCardService;
     }
 
     @GetMapping({"/genre", "/genre.html"})
     public String showCategoriesPage(Model model) {
         List<Genre> genres = genreService.getAllGenres();
         model.addAttribute("genres", genres);
+
+        List<Genre> genresSorted = genreService.getAllGenresWithSales();
+        model.addAttribute("genresSorted", genresSorted);
+
         return "genre/index";
     }
 
@@ -36,12 +45,17 @@ public class GenreController {
         return "genre/add_genre";
     }
 
+
     @GetMapping("/genre_info/{id}")
     public String infoGenre(@PathVariable Long id, Model model) {
         Genre genre = genreService.getById(id);
         model.addAttribute("genre", genre);
         List<Book> books = bookService.getAllBooksByGenre(id);
         model.addAttribute("books", books);
+
+        List<ClientCard> fanClients = clientCardService.getAllFans(id);
+        model.addAttribute("fanclientcards", fanClients);
+
         return "genre/genre_info";
     }
 

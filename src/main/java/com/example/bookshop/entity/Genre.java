@@ -5,6 +5,8 @@ public class Genre {
     private String name;
     private String description;
     private int numberOfBooks;
+    private int totalSold;
+
 
     public Genre() {}
     public Genre(Long id, String name, String description, int numberOfBooks) {
@@ -12,6 +14,12 @@ public class Genre {
         this.name = name;
         this.description = description;
         this.numberOfBooks = numberOfBooks;
+    }
+
+    public Genre(Long id, String name, int totalSold) {
+        this.id = id;
+        this.name = name;
+        this.totalSold = totalSold;
     }
 
     public Long getId() { return id; }
@@ -25,6 +33,9 @@ public class Genre {
 
     public int getNumberOfBooks() { return numberOfBooks; }
     public void setNumberOfBooks(int numberOfBooks) { this.numberOfBooks = numberOfBooks; }
+
+    public int getTotalSold() { return totalSold; }
+    public void setTotalSold(int totalSold) { this.totalSold = totalSold; }
 
     public Genre orElse(Object o) {
         if(this == null) {

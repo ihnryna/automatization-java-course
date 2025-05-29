@@ -68,6 +68,9 @@ public class WorkerController {
         if (!worker.getPhoneNumber().matches("\\d{10}")) {
             result.rejectValue("phoneNumber", "error.phoneNumber", "Недійсний номер телефону!");
         }
+        System.out.println(worker.getPassword());
+        System.out.println(worker.getOccupation());
+
 
 
         if (result.hasErrors()) {
@@ -109,6 +112,8 @@ public class WorkerController {
         if (!worker.getPhoneNumber().matches("\\d{10}")) {
             result.rejectValue("phoneNumber", "error.phoneNumber", "Недійсний номер телефону!");
         }
+        System.out.println(worker.getPassword());
+        System.out.println(worker.getOccupation());
 
 
         if (result.hasErrors()) {
