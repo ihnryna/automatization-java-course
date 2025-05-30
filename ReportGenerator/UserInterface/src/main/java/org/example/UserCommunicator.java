@@ -26,6 +26,8 @@ public class UserCommunicator {
         ReportMaker reportMaker = new ReportMaker();
         String path = reportMaker.generatePDF(allText,fileName,directoryName);
 
+        //TODO: some task
+
         System.out.println("Enter email address to send the report:");
         String email = scanner.nextLine();
         ReportSender reportSender = new ReportSender();

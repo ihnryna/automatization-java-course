@@ -28,6 +28,9 @@ public class ReportMaker {
             contentStream.showText(line);
             contentStream.newLine();
         }
+        //TODO: task 1
+        //TODO: task 2
+
 
         contentStream.newLine();
         contentStream.showText(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
@@ -38,6 +41,9 @@ public class ReportMaker {
         document.close();
         System.out.println("PDF report " +directoryPath+"\\"+name+".pdf"+" created");
         return directoryPath+"\\"+name+".pdf";
+
+        //TODO: task 3
+
     }
 
 }
