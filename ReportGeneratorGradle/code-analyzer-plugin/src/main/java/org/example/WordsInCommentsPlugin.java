@@ -33,7 +33,7 @@ public class WordsInCommentsPlugin implements Plugin<Project> {
             } catch (Exception e) {
                 throw new GradleException("Failed to generate words report", e);
             }
-        });
+        }).setGroup("Words");
     }
 
     public String generatePDF(List<String> text, String name, String directoryPath) throws IOException {
