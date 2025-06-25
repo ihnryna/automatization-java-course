@@ -20,8 +20,8 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.VariableElement;
 
 
-@SupportedAnnotationTypes("org.example.GeneratePriceTag") // Вказуємо, які анотації ми обробляємо
-@SupportedSourceVersion(SourceVersion.RELEASE_21) // Вказуємо підтримувану версію вихідного коду
+@SupportedAnnotationTypes("org.example.GeneratePriceTag")
+@SupportedSourceVersion(SourceVersion.RELEASE_21)
 @AutoService(Processor.class)
 public class PriceTagProcessor extends AbstractProcessor {
 
@@ -29,9 +29,9 @@ public class PriceTagProcessor extends AbstractProcessor {
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         if (annotations.isEmpty())
             return false;
-        for (Element element : roundEnv.getElementsAnnotatedWith(GeneratePriceTag.class)) { //аналіз всіх елементів з анотацією MyAnnotation
+        for (Element element : roundEnv.getElementsAnnotatedWith(GeneratePriceTag.class)) {
             GeneratePriceTag myAnnotation = element.getAnnotation(GeneratePriceTag.class);
-            String[] fields = myAnnotation.fields();  // отримуємо значення з анотації
+            String[] fields = myAnnotation.fields();
             PriceUnit unit = myAnnotation.unit();
 
             String packageToSpawn = processingEnv.getElementUtils().getPackageOf(element).getQualifiedName().toString();
@@ -48,6 +48,24 @@ public class PriceTagProcessor extends AbstractProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .addParameter(ClassName.get(packageToSpawn, element.getSimpleName().toString()), "product");
 
+            for (Element fieldElement : element.getEnclosedElements()) {
+                if (fieldElement instanceof VariableElement variableElement) {
+                    String fieldName = variableElement.getSimpleName().toString();
+
+                    boolean isInFields = false;
+                    for (String f : fields) {
+                        if (f.equals(fieldName)) {
+                            isInFields = true;
+                            break;
+                        }
+                    }
+                    if (!isInFields) continue;
+
+                    constructor.addStatement("this.$L = String.valueOf(product.$L)", fieldName, fieldName);
+                }
+            }
+
+            /*
             for (Element fieldElement : element.getEnclosedElements()) {
                 if (fieldElement instanceof VariableElement variableElement) {
                     String fieldName = variableElement.getSimpleName().toString();
@@ -81,7 +99,7 @@ public class PriceTagProcessor extends AbstractProcessor {
                     """, fieldName, fieldName, fieldName);
                     }
                 }
-            }
+            }*/
             builder.addMethod(constructor.build());
 
 

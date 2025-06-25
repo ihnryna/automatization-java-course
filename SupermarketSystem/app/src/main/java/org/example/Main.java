@@ -12,16 +12,14 @@ public class Main {
 
         try{
             Toy doll = new Toy("Barbie Doll", -250, "Mattel");
-            ToyPriceTag dollTag = new ToyPriceTag(doll);
-            System.out.println(dollTag.format());
+            PriceValidator.validate(doll);
         } catch (Exception e){
             e.printStackTrace();
         }
 
         try{
             Toy doll2 = new Toy("Barbie Doll", 250.000516, "Mattel");
-            ToyPriceTag dollTag2 = new ToyPriceTag(doll2);
-            System.out.println(dollTag2.format());
+            PriceValidator.validate(doll2);
         } catch (Exception e){
             e.printStackTrace();
         }

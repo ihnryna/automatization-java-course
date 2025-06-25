@@ -4,7 +4,7 @@ package org.example;
 public class Toy {
     public String name;
 
-    @ValidPrice
+    @Price
     public double price;
 
     public String manufacturer;

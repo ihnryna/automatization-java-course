@@ -4,7 +4,7 @@
     public class Fruit {
         public String name;
 
-        @ValidPrice
+        @Price
         public double price;
 
         public String manufacturer;
