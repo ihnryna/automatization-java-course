@@ -5,7 +5,7 @@ import java.lang.annotation.*;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidPrice {
+public @interface Price {
     double min() default 0;
     double max() default Double.MAX_VALUE;
 }

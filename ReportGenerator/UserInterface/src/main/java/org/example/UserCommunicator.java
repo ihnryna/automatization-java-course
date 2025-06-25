@@ -33,6 +33,5 @@ public class UserCommunicator {
         ReportSender reportSender = new ReportSender();
         reportSender.sendReport(email, fileName, path);
 
-
     }
 }
